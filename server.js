@@ -4,7 +4,10 @@ require('dotenv').config(); // Load environment variables from .env filed
 const db = require('./config/db');
 const bodyParser = require('body-parser');
 const userRoute = require('./route/userRoute')
+const cors = require('cors'); // Import the cors module
 
+// Use CORS middleware
+app.use(cors());
 
 const app = express();
 app.use(bodyParser.json());
