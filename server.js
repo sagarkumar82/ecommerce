@@ -6,10 +6,13 @@ const bodyParser = require('body-parser');
 const userRoute = require('./route/userRoute')
 const cors = require('cors'); // Import the cors module
 
-// Use CORS middleware
-app.use(cors());
+
 
 const app = express();
+
+// Use CORS middleware
+app.use(cors()); 
+
 app.use(bodyParser.json());
 
 app.use('/' ,  userRoute)
