@@ -32,10 +32,6 @@ const RegisterSchema = new mongoose.Schema({
   }
 
 });
-// Middleware to update 'updated_at' before each save
-RegisterSchema.pre('save', function (next) {
-  this.updated_at = Date.now();
-  next();
-});
+
 const UserRegister  = mongoose.model('user-register', RegisterSchema);
 module.exports =UserRegister

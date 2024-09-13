@@ -113,7 +113,8 @@ exports.login = async (req, res) => {
     };
 
     const token = jwt.sign(payload, "fjhfhgfhegdfgsdajf", { expiresIn: "30d" });
-    (user.token = token), (user.isLogin = true);
+    user.token = token,
+     user.isLogin = true;
 
     await user.save();
 
@@ -130,37 +131,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// filter data  data by condition
-exports.filtersBylogin = async (req, res) => {
-  try {
-    const { name, email } = req.body;
-    if (!name) {
-      return res.status(400).json({
-        error: "name is required",
-      });
-    }
-    if (!email) {
-      return res.status(400).json({
-        error: "email is required",
-      });
-    }
-    const user = await UserRegister.find({ name, email });
 
-    if (!user || user.length === 0) {
-      return res.status(400).json({
-        error: "No data found",
-      });
-    }
-    res.status(200).json({
-      status: "OK",
-      data: user,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "Internel server error",
-    });
-  }
-};
 
 // get data of user by id
 
@@ -248,7 +219,7 @@ exports.deleteUser = async (req, res) => {
     const deletedUser = await UserRegister.findByIdAndDelete(id);
     if (!deletedUser) {
       return res.status(400).json({
-        error: "No data found",
+        error: "User not found",
       });
     }
 
@@ -278,7 +249,7 @@ exports.updateUser = async (req, res) => {
         message: "Invalid Id",
       });
     }
-    const { email, password, name } = req.body;
+    const {email} = req.body;
 
     // Check if the email is already in use by another user
     const isExistingEmail = await UserRegister.findOne({
@@ -291,12 +262,10 @@ exports.updateUser = async (req, res) => {
       });
     }
 
-    const salt = await bcrypt.genSalt(10);
 
-    const updatedhashed = await bcrypt.hash(password, salt);
     const updateUser = await UserRegister.findByIdAndUpdate(
       id,
-      { email, password: updatedhashed, name },
+      req.body,
       { new: true }
     );
 
