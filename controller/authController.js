@@ -140,7 +140,7 @@ exports.getSingleUser = async (req, res) => {
 
   try {
     if (!mongoose.isValidObjectId(id)) {
-      res.status(400).json({
+     return res.status(400).json({
         error: "Invalid id",
       });
     }
@@ -148,11 +148,11 @@ exports.getSingleUser = async (req, res) => {
     const user = await UserRegister.findById(id).select("-password");
 
     if (!user) {
-      res.status(400).json({
+      return  res.status(400).json({
         error: "Invalid id",
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       status: "OK",
       data: user,
     });
