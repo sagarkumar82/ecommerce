@@ -46,7 +46,7 @@ exports.register = async (req, res) => {
 // get all user
 exports.user = async (req, res) => {
   try {
-    const record = await UserRegister.find().select("-password ");
+    const record = await UserRegister.find();
 
     if (!record || record.length === 0) {
       return res.status(400).json({
@@ -92,7 +92,7 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         message: {
-          email: "invalid email",
+          email: "invalid email id or passwords",
         },
       });
     }
@@ -101,7 +101,7 @@ exports.login = async (req, res) => {
     if (!hashedPassword) {
       return res.status(400).json({
         message: {
-          password: "invalid password",
+          password: "invalid email id or password",
         },
       });
     }
